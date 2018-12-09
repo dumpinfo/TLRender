@@ -1,0 +1,48 @@
+[WARN] [1544381847.533539]: 5 samples collected, 95 more samples needed ...
+========= start ==============
+
+[-0.03909512977813634, 0.7659739529372153, 0.18438748804616345]
+[0.5727105796416587, -0.4173146757522043, -0.42832290083041163, 0.5607054003597342]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+translation: 
+  x: -0.0390951297781
+  y: 0.765973952937
+  z: 0.184387488046
+rotation: 
+  x: 0.572710579642
+  y: -0.417314675752
+  z: -0.42832290083
+  w: 0.56070540036
+========== end =============
+
+~~~~~~~~~ start ~~~~~~~~~~~~~~~
+translation: 
+  x: -0.196754172444
+  y: -0.00765929184854
+  z: 0.443752765656
+rotation: 
+  x: -0.435632350437
+  y: 0.572531674358
+  z: -0.420237935469
+  w: 0.553020808562
+['__class__', '__delattr__', '__doc__', '__eq__', '__format__', '__getattribute__', '__getstate__', '__hash__', '__init__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setstate__', '__sizeof__', '__slots__', '__str__', '__subclasshook__', '_check_types', '_connection_header', '_full_text', '_get_types', '_has_header', '_md5sum', '_slot_types', '_type', 'deserialize', 'deserialize_numpy', 'rotation', 'serialize', 'serialize_numpy', 'translation']
+4
+[[[ -8.78488110e-03  -3.40259923e-02   9.99382338e-01]
+  [ -9.63627284e-01   2.67249066e-01   6.28451704e-04]
+  [ -2.67105380e-01  -9.63026567e-01  -3.51361258e-02]]]
+4
+[-10254.52999802]
+[ 5041.23302468]
+[ 5986.06713051]
+[[-178.97530866   87.98611314  104.47657889]]
+~~~~~~~~~ ends ~~~~~~~~~~~~~~~
+^C[hand_eye_connector-5] killing on exit
+[hand_eye_solver-4] killing on exit
+[aruco_tracker-3] killing on exit
+[camera/realsense2_camera-2] killing on exit
+[camera/realsense2_camera_manager-1] killing on exit
+[ INFO] [1544381847.886748841]: Interrupt Signal is received! Terminating RealSense Node...
+shutting down processing monitor...
+... shutting down processing monitor complete
+
