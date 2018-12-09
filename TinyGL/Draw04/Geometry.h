@@ -730,7 +730,7 @@ TextureSurface::Render()
   printf("%s name:%s\n",(char*)nodespace.c_str(),(char*)nodename.c_str());
   //glPushAttrib KH(GL_ALL_ATTRIB_BITS);
   glPushMatrix();
-  /*
+  
   if(ColorNode)
     ColorNode->Render();
   if(MatNode)
@@ -739,7 +739,7 @@ TextureSurface::Render()
     TransNode->Render();
   if(StyleNode)
     {StyleNode->nodespace = ParentNode->nodespace +"</-/>"; StyleNode->Render();}
-  */
+  /**/
   
   printf("%s name draw GL_POLYGONs:%s\n",(char*)nodespace.c_str(),(char*)nodename.c_str());
   

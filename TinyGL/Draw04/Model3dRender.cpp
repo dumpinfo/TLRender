@@ -88,6 +88,7 @@ class VWordModel
   Node *Root ;
   GLViewer *MyViewer ;
   TextureSurface* groundface  ;
+  Transformation* texsurface_trs;
 };
 
 VWordModel::VWordModel()
@@ -103,6 +104,7 @@ VWordModel::VWordModel()
   Root   = new Node;     Root  ->nodename ="Root";
   MyViewer = new GLViewer;// MyViewer ->nodename = "Viewer";
   groundface = new TextureSurface;
+  texsurface_trs = new Transformation;
 }
 
 VWordModel::~VWordModel()
@@ -205,24 +207,34 @@ bunny.stl, 50.0, 1.0, 1.0, 10, 0, 0, 0, 0, 0,  0,  3,#OBJ(color3)(pos3)(rot4)(sc
                        {0.115*5.0, 0.115*5.0, 0},{  0,  0.115*5.0, 0} };*/
 	float vground[4][3];//={{0, 0, 0},{ 0.115 ,  0,  0},
                        //{0.115 , 0.115 , 0},{  0,  0.115 , 0} };
-	double offsetx(0), offsety(0), offsetz(0);
+	double offsetx(0), offsety(0), offsetz(0);//, offsetx(0), offsety(0), offsetz(0);
 	if(strvec.size()>13)
 	{ 
       offsetx = atof(trim(strvec[12]).c_str());;;
       offsety = atof(trim(strvec[13]).c_str());;;
 	  offsetz = atof(trim(strvec[14]).c_str());;;
+	  
+	  rot_angle   = atof( trim(strvec[15]).c_str() );
+      rot_x       = atof( trim(strvec[16]).c_str() );
+      rot_y       = atof( trim(strvec[17]).c_str() );
+      rot_z       = atof( trim(strvec[18]).c_str() ); 
 	}
     for( i = 0; i <  4; i++ )
 	{
-		vground[i][0] = atof(trim(strvec[0+3*i]).c_str()) + offsetx;;
-		vground[i][1] = atof(trim(strvec[1+3*i]).c_str()) + offsety;;
-		vground[i][2] = atof(trim(strvec[2+3*i]).c_str()) + offsetz;;
+		vground[i][0] = atof(trim(strvec[0+3*i]).c_str()) ;//+ offsetx;;
+		vground[i][1] = atof(trim(strvec[1+3*i]).c_str()) ;//+ offsety;;
+		vground[i][2] = atof(trim(strvec[2+3*i]).c_str()) ;//+ offsetz;;
 	}
   /* float vground[][3]={{-200,  200, 0.0},{-200, -200, 0.0},
                     { 200,  -200, 0.0},{ 200, 200, 0.0} };*/
    world_model.groundface->SetVerticesv(vground,4);
    // groundface->SetVerticesv(vx, 4);
    world_model.groundface->SetMaterial(GetColorMat(360*0.0/8.0, 1.0, 1.0 ));
+   
+   world_model.texsurface_trs->SetValue(TRANSLATION , offsetx, offsety, offsetz , 1);
+   world_model.texsurface_trs->SetValue(ROTATION    , rot_angle, rot_x,  rot_y, rot_z, 0);
+   world_model.groundface->SetTransform( world_model.texsurface_trs);
+   //world_model.StlTrans[i]->SetValue(SCALE       , obj_scale, obj_scale, obj_scale,2); 
    //====================================================================================
   
    for( i = 0; i <  element_num; i++ )
@@ -254,8 +266,8 @@ bunny.stl, 50.0, 1.0, 1.0, 10, 0, 0, 0, 0, 0,  0,  3,#OBJ(color3)(pos3)(rot4)(sc
 	   world_model.StlTrans[i]->SetValue(SCALE       , obj_scale, obj_scale, obj_scale,2); 
 	   
 	   world_model.StlElements[i]->SetTransform( world_model.StlTrans[i]);
-     world_model.StlElements[i]->LoadStl((char*)trim(fname).c_str());
-     world_model.StlElements[i]->SetMaterial(GetColorMat(mat_h, mat_s, mat_v ));  //GetColorMat(360*0.0/8.0, 1.0, 1.0 ));//
+       world_model.StlElements[i]->LoadStl((char*)trim(fname).c_str());
+       world_model.StlElements[i]->SetMaterial(GetColorMat(mat_h, mat_s, mat_v ));  //GetColorMat(360*0.0/8.0, 1.0, 1.0 ));//
        
 	   world_model.SysTrans->AddChild( world_model.StlElements[i]);
 	   printf( "%s\n", trim(lines[i]).c_str() );
