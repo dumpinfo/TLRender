@@ -1,0 +1,17 @@
+﻿生成启动时间为 2018/12/16 19:52:28。
+项目“C:\test02\3dDraw\3dDraw.vcxproj”在节点 2 上(build 个目标)。
+InitializeBuildStatus:
+  正在创建“Debug\3dDraw.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+ClCompile:
+  所有输出均为最新。
+Link:
+  所有输出均为最新。
+  3dDraw.vcxproj -> C:\test02\3dDraw\Debug\3dDraw.exe
+FinalizeBuildStatus:
+  正在删除文件“Debug\3dDraw.unsuccessfulbuild”。
+  正在对“Debug\3dDraw.lastbuildstate”执行 Touch 任务。
+已完成生成项目“C:\test02\3dDraw\3dDraw.vcxproj”(build 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:00.00
