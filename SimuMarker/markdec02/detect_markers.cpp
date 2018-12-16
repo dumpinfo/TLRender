@@ -1,5 +1,6 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/aruco.hpp>
+#include <opencv2/calib3d.hpp>
 #include <iostream>
 
 using namespace std;
@@ -34,7 +35,47 @@ static bool readCameraParameters(string filename, Mat &camMatrix, Mat &distCoeff
     return true;
 }
 
+/**
+ * 功能： 1. 检查是否是旋转矩阵
+ * 作者： Zuo
+ * 日期： 2017-10-12
+**/
+bool isRotationMatrix(Mat &R)
+{
+    Mat Rt;
+    transpose(R, Rt);
+    Mat shouldBeIdentity = Rt * R;
+    Mat I = Mat::eye(3,3, shouldBeIdentity.type());
 
+    return  norm(I, shouldBeIdentity) < 1e-6;    
+}
+
+/**
+ * 功能： 1. 通过给定的旋转矩阵计算对应的欧拉角
+ * 作者： Zuo
+ * 日期： 2017-10-12
+**/
+Vec3f rotationMatrixToEulerAngles(Mat &R)
+{
+    assert(isRotationMatrix(R));
+
+    float sy = sqrt(R.at<double>(0,0) * R.at<double>(0,0) +  R.at<double>(1,0) * R.at<double>(1,0) );
+
+    bool singular = sy < 1e-6; // If
+
+    float x, y, z;
+    if (!singular) {
+        x = atan2(R.at<double>(2,1) , R.at<double>(2,2));
+        y = atan2(-R.at<double>(2,0), sy);
+        z = atan2(R.at<double>(1,0), R.at<double>(0,0));
+    } else {
+        x = atan2(-R.at<double>(1,2), R.at<double>(1,1));
+        y = atan2(-R.at<double>(2,0), sy);
+        z = 0;
+    }
+    return Vec3f(x, y, z);   
+}
+ 
 
 /**
  */
@@ -169,11 +210,17 @@ int main(int argc, char *argv[]) {
                 for(unsigned int i = 0; i < ids.size(); i++)
 				{ aruco::drawAxis(imageCopy, camMatrix, distCoeffs, rvecs[i], tvecs[i],
                                     markerLength * 0.5f);
-				 printf("%.3lf,%.3lf,%.3lf\n", double(rvecs[i][0]),double(rvecs[i][1]),double(rvecs[i][2]));
+				 /*printf("%.3lf,%.3lf,%.3lf\n", double(rvecs[i][0]),double(rvecs[i][1]),double(rvecs[i][2]));
 				 printf("%.3lf,%.3lf,%.3lf\n", double(rvecs[i][0]*180.0/3.1415926),
 				                               double(rvecs[i][1]*180.0/3.1415926),
-                                               double(rvecs[i][2]*180.0/3.1415926));
-				 printf("%.3lf,%.3lf,%.3lf\n", double(tvecs[i][0]),double(tvecs[i][1]),double(tvecs[i][2]));
+                                               double(rvecs[i][2]*180.0/3.1415926));*/
+				 Mat rotation_matrix = Mat(3, 3, CV_32FC1, Scalar::all(0)); /* 保存每幅图像的旋转矩阵 */
+				 Rodrigues(rvecs[i], rotation_matrix);
+				 Vec3f eulervec = rotationMatrixToEulerAngles(rotation_matrix);
+				 printf("%.3lf,%.3lf,%.3lf\n", double(eulervec[0]*180.0/3.1415926),
+				                               double(eulervec[1]*180.0/3.1415926),
+                                               double(eulervec[2]*180.0/3.1415926));
+				 //trans printf("%.3lf,%.3lf,%.3lf\n", double(tvecs[i][0]),double(tvecs[i][1]),double(tvecs[i][2]));
 				}
             }
         }
